@@ -2,26 +2,20 @@
 <html>
 <head>
   <title><%= full_title yield :title %></title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', 'meida' => 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <%= render 'layouts/shim' %>
 </head>
 <body>
-
-	<header class='navbar navbar-fixed-top navbar-inverse'>
-		<div clas='container'>
-			<%= link_to 'Sample App', '#' , id:'logo' %>
-		</div>
-		<ul class='navbar navbar-nav navbar-right'>
-			<li><%= link_to 'Home', '#' %></li>
-			<li><%= link_to 'Help', '#' %></li>
-			<li><%= link_to 'Log in', '#' %></li>
-		</ul>
-	</header>
-
-	<div class='container'>
-		<%= yield %>
-	</div>
-
+  <%= render 'layouts/header' %>
+    <div class="container">
+      <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><%= message %></div>
+      <% end %>
+      <%= yield %>  
+      <%= debug(params) if Rails.env.development? %>
+      <%= render 'layouts/footer' %>
+    </div>
 </body>
 </html>
