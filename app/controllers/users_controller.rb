@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   
+  def index
+  end
+
   def new
   	@user = User.new
   end
@@ -10,10 +13,10 @@ class UsersController < ApplicationController
   end
 
   def create
-  	@user = User.new(user_params)
+  	@user = User.new(get_user_params)
   	if @user.save
   		flash[:success] = 'Welcom to Sample App!'
-  		redirect_to @user
+  		redirect_to root_url
   	else
   		render 'new'
   	end
