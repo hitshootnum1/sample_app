@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     member do
       get :following, :followers
     end
+    resources :addresses,         only: [:new, :edit, :create, :delete, :update]
   end
 
   resources :account_activations, only: [:edit]
