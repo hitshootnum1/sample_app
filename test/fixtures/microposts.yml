@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 orange:
   content: "I just ate an orange!"
   created_at: <%= 10.minutes.ago %>
@@ -44,3 +45,14 @@ van:
   content: "Dude, this van's, like, rolling probable cause."
   created_at: <%= 4.hours.ago %>
   user: lana
+=======
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  user_id: 
+
+two:
+  content: MyText
+  user_id: 
+>>>>>>> adding_addresses

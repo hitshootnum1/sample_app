@@ -1,26 +1,39 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
-                                        :following, :followers]
+
+  before_action :logged_in_user, only: [:edit, :update, :destroy]
+
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
-  
+
   def index
-    @users = User.paginate(page: params[:page])
+    if !params[:search].nil?
+      @users = User.where("name like ? ", "%#{params[:search][:user_name]}%")
+                .paginate(page: params[:page])
+    else
+      @users = User.paginate(page: params[:page])
+    end
   end
   
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
+    @microposts = @user.microposts.paginate page: params[:page]
   end
   
   def new
     @user = User.new
+    @user.address = Address.new
   end
   
   def create
+    #debugger
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
+      if address_params?
+        @user.update_attributes(address_attributes: address_params)
+        #@user.save
+        flash[:success] = 'updated address'
+      end
       flash[:info] = "Please check your email to activate your account."
       redirect_to root_url
     else
@@ -52,7 +65,7 @@ class UsersController < ApplicationController
     @users = @user.following.paginate(page: params[:page])
     render 'show_follow'
   end
-  
+
   def followers
     @title = "Followers"
     @user  = User.find(params[:id])
@@ -61,22 +74,27 @@ class UsersController < ApplicationController
   end
   
   private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password,
+     :password_confirmation)
+  end  
+
+  def address_params
+    params.require(:user).require(:address_attributes).permit :city, :district, :street
+  end
+
+  def address_params?
+    !params[:user][:address_attributes].nil?
+  end
+  # Confirms the correct user.
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless current_user?(@user)
+  end
     
-    def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
-    end
-    
-    # Before filters
-    
-    # Confirms the correct user.
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
-    end
-    
-    # Confirms an admin user.
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end
+  # Confirms an admin user.
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
+  end
 end

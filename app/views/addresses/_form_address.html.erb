@@ -1,0 +1,13 @@
+<%= form_for [@user, @address] do |f| %>
+	<%= render 'shared/error_messages', object: f.object %>
+	<%= f.label :city %>
+	<%= f.text_field :city, class:'form-control' %>
+
+	<%= f.label :district %>
+	<%= f.text_field :district, class: 'form-control' %>
+
+	<%= f.label :street %>
+	<%= f.text_field :street, class: 'form-control' %>
+
+	<%= f.submit @address.nil? ? 'Add' : 'Edit', class: 'btn' %>
+<% end %>

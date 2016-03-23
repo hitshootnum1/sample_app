@@ -1,13 +1,22 @@
 class User < ActiveRecord::Base
+
   has_many :microposts, dependent: :destroy
-  has_many :active_relationships, class_name:  "Relationship",
-                                  foreign_key: "follower_id",
-                                  dependent:   :destroy
+  has_many :comments, through: :microposts
+
+  has_many :active_relationships, class_name: 'Relationship',
+                                  foreign_key: 'follower_id',
+                                  dependent: :destroy
+
+  has_many :passive_realationships, class_name: 'Relationship',
+                                    foreign_key: 'followed_id',
+                                    dependent: :destroy
+  
   has_many :following, through: :active_relationships, source: :followed
-  has_many :passive_relationships, class_name:  "Relationship",
-                                   foreign_key: "followed_id",
-                                   dependent:   :destroy
-  has_many :followers, through: :passive_relationships, source: :follower
+  has_many :followers, through: :passive_realationships, source: :follower
+
+  has_one :address
+  accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :check_address
+
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
   before_create :create_activation_digest
@@ -77,27 +86,25 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
-  # Returns a user's status feed.
-  def feed
-    following_ids_subselect = "SELECT followed_id FROM relationships
-                               WHERE  follower_id = :user_id"
-    Micropost.where("user_id IN (#{following_ids_subselect})
+  def get_micropost_feed
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE  follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
                      OR user_id = :user_id", user_id: id)
   end
 
-  # Follows a user.
-  def follow(other_user)
+  # Follow user
+  def follow other_user
     active_relationships.create(followed_id: other_user.id)
   end
 
-  # Unfollows a user.
-  def unfollow(other_user)
-    active_relationships.find_by(followed_id: other_user.id).destroy
+  # Unfollow user
+  def unfollow other_user
+     active_relationships.find_by(followed_id: other_user.id).destroy
   end
-
-  # Returns true if the current user is following the other user.
-  def following?(other_user)
-    following.include?(other_user)
+  # Check followed user
+  def following? user
+    self.following.include? user
   end
 
   private
@@ -111,5 +118,11 @@ class User < ActiveRecord::Base
     def create_activation_digest
       self.activation_token  = User.new_token
       self.activation_digest = User.digest(activation_token)
+    end
+
+    # Check address in ignore list
+    def check_address attributes
+      puts "============================================================================="
+      attributes['city'] == 'Ha Noi'
     end
 end

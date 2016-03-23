@@ -11,14 +11,41 @@
       
       <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> adding_addresses
       <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control' %>
       
       <%= f.label :password_confirmation, "Confirmation" %>
       <%= f.password_field :password_confirmation, class: 'form-control' %>
       
+      <%= f.fields_for :address do |ff| %>
+        <div class='form-address'>
+          <%= ff.label :city %>
+          <%= ff.text_field :city, class:'form-control' %>
+
+          <%= ff.label :district %>
+          <%= ff.text_field :district, class: 'form-control' %>
+
+          <%= ff.label :street %>
+          <%= ff.text_field :street, class: 'form-control' %>
+        </div>
+      <% end %>
+
       <%= f.submit "Create my account", class: "btn btn-primary" %>
     <% end %>
+    <button id='address-form-option'>Address Option</button>
   </div>
 </div>
+<script type="text/javascript">
+  $("#address-form-option").click( function(){
+    if ($("div.form-address").is(":visible"))
+      $("div.form-address").hide()
+    else
+      $("div.form-address").show()
+  });
+</script>
+
