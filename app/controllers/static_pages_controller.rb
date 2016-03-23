@@ -4,6 +4,8 @@ class StaticPagesController < ApplicationController
   	if logged_in?
       @micropost = current_user.microposts.build
       @feed_items = current_user.get_micropost_feed.paginate(page: params[:page])
+    else
+      @feed_items = Micropost.all.paginate(page: params[:page])
     end
   end
 
