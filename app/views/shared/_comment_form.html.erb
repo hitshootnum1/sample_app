@@ -1,0 +1,12 @@
+<%= form_for @comment do |f|%>
+	<%= render 'shared/error_messages', object: f.object %>
+	<%= f.hidden_field :user_id, value: @user.id %>
+	<%= f.hidden_field :micropost_id, value: @micropost.id %>
+	<% if @comment.parent != nil %>
+		<%= f.hidden_field :parent_id, value: @comment.parent.id %>
+	<% end %>
+	<div class="field">
+		<%= f.text_area :content, placeholder: "Compose new micropost...", value: '' %>
+	</div>
+	<%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>
