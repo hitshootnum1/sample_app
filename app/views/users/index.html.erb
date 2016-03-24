@@ -1,0 +1,17 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= form_for :search, url: users_path, method: :get do |f| %>
+	<p>
+		<%= f.text_field :user_name, class: 'form-control' %>
+		<%= submit_tag "Search", class: 'btn' %>
+	</p>
+<% end %>
+
+<%= will_paginate %>
+
+	<ul class="users">
+		<%= render @users %>
+	</ul>
+
+<%= will_paginate %>

@@ -1,0 +1,26 @@
+<% provide(:title, @micropost.user.name) %>
+<% provide(:title, @micropost.user.name) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h1>
+        <%= gravatar_for @micropost.user %>
+        <%= yield :title %>
+      </h1>
+    </section>
+    <ol class="microposts">
+        <%= render @micropost %>
+    </ol>
+  </aside>
+  <div class="col-md-8">
+  	<% if !@user.nil? %>
+  		<%= render 'shared/comment_form' %>
+  	<% end %>
+   	<h2>Comment</h2>
+   	<ol class="microposts">
+      <%= comments_tree_for @comments %>
+       <%#= render @comments %>
+    </ol>
+    <%#= will_paginate @comments %>
+	</div>
+</div>

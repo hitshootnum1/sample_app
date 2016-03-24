@@ -1,0 +1,17 @@
+<li id="micropost-<%= entry.id %>">
+	<%= link_to gravatar_for(entry.user, size: 50), entry.user %> 
+	<span class='user'><%= link_to entry.user.name, entry.user %></span>
+	<span class='show'><%= link_to 'Detail', entry %></span>
+	<span class='content'>
+		<%= entry.content %>
+		<%= image_tag entry.picture.url if entry.picture? %>
+	</span>
+	<span class='timestamp'>
+		<%= time_ago_in_words entry.created_at %>
+	</span>
+
+	<% if current_user? entry.user %>
+		<%= link_to 'delete', entry_path(entry), method: :delete,
+					data: {confirm: 'Are you sure?' }%>
+	<% end %>
+</li>
