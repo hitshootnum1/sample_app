@@ -1,15 +1,14 @@
-<% provide(:title, @micropost.user.name) %>
-<% provide(:title, @micropost.user.name) %>
+<% provide(:title, @entry.user.name) %>
 <div class="row">
   <aside class="col-md-4">
     <section class="user_info">
       <h1>
-        <%= gravatar_for @micropost.user %>
+        <%= gravatar_for @entry.user %>
         <%= yield :title %>
       </h1>
     </section>
     <ol class="microposts">
-        <%= render @micropost %>
+        <%= render @entry %>
     </ol>
   </aside>
   <div class="col-md-8">

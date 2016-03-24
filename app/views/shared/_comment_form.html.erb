@@ -1,7 +1,7 @@
 <%= form_for @comment do |f|%>
 	<%= render 'shared/error_messages', object: f.object %>
 	<%= f.hidden_field :user_id, value: @user.id %>
-	<%= f.hidden_field :micropost_id, value: @micropost.id %>
+	<%= f.hidden_field :entry_id, value: @entry.id %>
 	<% if @comment.parent != nil %>
 		<%= f.hidden_field :parent_id, value: @comment.parent.id %>
 	<% end %>

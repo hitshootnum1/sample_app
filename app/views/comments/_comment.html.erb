@@ -13,7 +13,7 @@
 				<%= link_to 'Delete', comment, method: :delete, data: {confirm: 'Are you sure?'} %>
 			<% end %>
 			<%= link_to 'Reply', 
-				new_comment_path(comment.id) << "?micropost_id=#{comment.micropost.id}" %>
+				new_comment_path(comment.id) << "?entry_id=#{comment.entry.id}" %>
 		<% end %>
 	</span>
 </li>

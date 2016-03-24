@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
-  has_many :microposts, dependent: :destroy
-  has_many :comments, through: :microposts
+  has_many :entries, dependent: :destroy
+  has_many :comments, through: :entries
 
   has_many :active_relationships, class_name: 'Relationship',
                                   foreign_key: 'follower_id',
@@ -86,10 +86,10 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
-  def get_micropost_feed
+  def get_entry_feed
     following_ids = "SELECT followed_id FROM relationships
                      WHERE  follower_id = :user_id"
-    Micropost.where("user_id IN (#{following_ids})
+    Entry.where("user_id IN (#{following_ids})
                      OR user_id = :user_id", user_id: id)
   end
 

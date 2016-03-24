@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323040735) do
+ActiveRecord::Schema.define(version: 20160324022725) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "city"
@@ -35,17 +35,17 @@ ActiveRecord::Schema.define(version: 20160323040735) do
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
-    t.integer  "micropost_id"
+    t.integer  "entry_id"
     t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "parent_id"
   end
 
-  add_index "comments", ["micropost_id"], name: "index_comments_on_micropost_id"
-  add_index "comments", ["user_id", "micropost_id", "created_at"], name: "index_comments_on_user_id_and_micropost_id_and_created_at"
+  add_index "comments", ["entry_id"], name: "index_comments_on_entry_id"
+  add_index "comments", ["user_id", "entry_id", "created_at"], name: "index_comments_on_user_id_and_entry_id_and_created_at"
 
-  create_table "microposts", force: :cascade do |t|
+  create_table "entries", force: :cascade do |t|
     t.text     "content"
     t.integer  "user_id"
     t.datetime "created_at", null: false
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20160323040735) do
     t.string   "picture"
   end
 
-  add_index "microposts", ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
-  add_index "microposts", ["user_id"], name: "index_microposts_on_user_id"
+  add_index "entries", ["user_id", "created_at"], name: "index_entries_on_user_id_and_created_at"
+  add_index "entries", ["user_id"], name: "index_entries_on_user_id"
 
   create_table "relationships", force: :cascade do |t|
     t.integer  "follower_id"

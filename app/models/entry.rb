@@ -1,4 +1,4 @@
-class Micropost < ActiveRecord::Base
+class Entry < ActiveRecord::Base
   belongs_to :user
   has_many :comments
   
