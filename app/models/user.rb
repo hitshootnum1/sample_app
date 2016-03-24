@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include FriendlyId
+  friendly_id :name, use: :slugged
 
   has_many :entries, dependent: :destroy
   has_many :comments, through: :entries

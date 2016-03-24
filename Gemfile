@@ -20,6 +20,9 @@ gem 'sdoc',                    '0.4.0', group: :doc
 # nested comments
 gem 'closure_tree' 
 
+# pretty url
+gem 'friendly_id'
+
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
   gem 'byebug',      '3.4.0'

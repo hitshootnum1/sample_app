@@ -15,9 +15,10 @@ class UsersController < ApplicationController
   end
   
   def show
+    #@user = User.preload(:entries).where("users.id = ?", params[:id])
     @user = User.find(params[:id])
     #@microposts = @user.microposts.paginate page: params[:page]
-    @entries = @user.entries.paginate page: params[:page]
+    @entries = @user.entries.paginate(page: params[:page])
   end
   
   def new
