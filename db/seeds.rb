@@ -18,11 +18,11 @@ User.create!(name:  "Example User",
                activated_at: Time.zone.now)  
 end
 
-# Microposts
+# Entries
 users = User.order(:created_at).take(6)
 50.times do
   content = Faker::Lorem.sentence(5)
-  users.each { |user| user.microposts.create!(content: content) }
+  users.each { |user| user.entries.create!(content: content) }
 end
 
 # Following relationships

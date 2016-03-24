@@ -1,3 +1,5 @@
+<% provide :button_label, @address.nil? ? 'Add' : 'Edit' %>
+<h3><%= yield :title %></h3>
 <%= form_for [@user, @address] do |f| %>
 	<%= render 'shared/error_messages', object: f.object %>
 	<%= f.label :city %>
@@ -9,5 +11,5 @@
 	<%= f.label :street %>
 	<%= f.text_field :street, class: 'form-control' %>
 
-	<%= f.submit @address.nil? ? 'Add' : 'Edit', class: 'btn' %>
+	<%= f.submit yield(:button_label) , class: 'btn' %>
 <% end %>

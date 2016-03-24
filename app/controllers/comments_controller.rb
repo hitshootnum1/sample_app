@@ -6,7 +6,8 @@ class CommentsController < ApplicationController
 	def new
 		@comment = Comment.new(parent_id: params[:parent_id])
 		@parent = Comment.find(params[:parent_id])
-		@micropost = Micropost.find(params[:micropost_id])
+		#@micropost = Micropost.find(params[:micropost_id])
+		@entry = Entry.find(params[:entry_id])
 		@user = current_user
 	end
 
@@ -23,8 +24,8 @@ class CommentsController < ApplicationController
 			if @parent.nil?
 				redirect_to request.referer				
 			else
-				micropost = @parent.micropost
-				redirect_to micropost
+				entry = @parent.entry
+				redirect_to entry
 			end
 		else
 			flash[:danger] = 'Something went wrong!'
@@ -42,7 +43,7 @@ class CommentsController < ApplicationController
 
 	private 
 		def comment_params
-			params.require(:comment).permit :content, :user_id, :micropost_id
+			params.require(:comment).permit :content, :user_id, :entry_id
 		end
 
 		def handle_exception
