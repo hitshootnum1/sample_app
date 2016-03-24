@@ -1,7 +1,12 @@
 class UsersController < ApplicationController
+  include UsersHelper
+
+  before_action :show_action_find_user, only: [:show, :destroy, 
+                                                :following, 
+                                                :followers,
+                                                :correct_user]
 
   before_action :logged_in_user, only: [:edit, :update, :destroy]
-
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
 
@@ -16,7 +21,7 @@ class UsersController < ApplicationController
   
   def show
     #@user = User.preload(:entries).where("users.id = ?", params[:id])
-    @user = User.find(params[:id])
+    #@user = User.find(params[:id])
     #@microposts = @user.microposts.paginate page: params[:page]
     @entries = @user.entries.paginate(page: params[:page])
   end
@@ -56,21 +61,21 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    User.find(params[:id]).destroy
+    @user.destroy
     flash[:success] = "User deleted"
     redirect_to users_url
   end
   
   def following
     @title = "Following"
-    @user  = User.find(params[:id])
+    #@user  = User.find(params[:id])
     @users = @user.following.paginate(page: params[:page])
     render 'show_follow'
   end
 
   def followers
     @title = "Followers"
-    @user  = User.find(params[:id])
+    #@user  = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'
   end
@@ -91,7 +96,7 @@ class UsersController < ApplicationController
   end
   # Confirms the correct user.
   def correct_user
-    @user = User.find(params[:id])
+    #@user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
   end
     
